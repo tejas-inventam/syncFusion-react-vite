@@ -2,11 +2,7 @@
 import { useEffect } from "react";
 import Loader from "./components/Loader";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import {
-  deleteProduct,
-  getAllProducts,
-  productActions,
-} from "./redux/slices/productSlice";
+import { deleteProduct, getAllProducts } from "./redux/slices/productSlice";
 import {
   ColumnDirective,
   ColumnsDirective,
@@ -30,14 +26,7 @@ const App = () => {
   }, [dispatch]);
 
   const handleDelete = (props: any) => {
-    console.log(props);
-    dispatch(deleteProduct(props.id))
-      .unwrap()
-      .then((res) => {
-        console.log(res);
-        dispatch(productActions.deleteProduct(props.id));
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteProduct(props.id));
   };
 
   const actionTemplate = (props: any) => {

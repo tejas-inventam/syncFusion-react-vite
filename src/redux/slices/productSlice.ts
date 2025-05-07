@@ -4,11 +4,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createAppSlice } from "../createAppSlice";
 import type { ApiSuccessI } from "../../service/handle-response";
 import productService from "../../service/productService";
-import type { Product } from "../../types/product";
+import type { Product, UpdateProduct } from "../../types/product";
+import type { GetData } from "../../types/getData";
 
 export const getAllProducts = createAsyncThunk(
   "product/getAllProducts",
-  async (payload: unknown, { rejectWithValue }) => {
+  async (payload: GetData, { rejectWithValue }) => {
     try {
       const { data }: ApiSuccessI = await productService.getAll(payload);
 
@@ -24,7 +25,7 @@ export const getAllProducts = createAsyncThunk(
 
 export const addProduct = createAsyncThunk(
   "product/addProduct",
-  async (payload: unknown, { rejectWithValue }) => {
+  async (payload: Partial<Product>, { rejectWithValue }) => {
     try {
       const res: ApiSuccessI = await productService.add(payload);
 
@@ -35,12 +36,12 @@ export const addProduct = createAsyncThunk(
   }
 );
 
-export const editProduct = createAsyncThunk(
-  "product/editProduct",
-  async (payload: any, { rejectWithValue }) => {
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (payload: UpdateProduct, { rejectWithValue }) => {
     try {
       const res: ApiSuccessI = await productService.update(payload);
-      return res.data; // assuming res.data contains the updated product
+      return res.data;
     } catch (error: any) {
       return rejectWithValue(error);
     }
@@ -53,7 +54,7 @@ export const deleteProduct = createAsyncThunk(
     try {
       const res = await productService.deleteById(id);
 
-      return res;
+      return res.data;
     } catch (error: any) {
       return rejectWithValue(error);
     }
@@ -85,16 +86,6 @@ const productSlice = createAppSlice({
     setProduct: (state, { payload }: PayloadAction<Product>) => {
       state.products = [...state.products, payload];
     },
-    updateProduct: (state, { payload }: PayloadAction<Product>) => {
-      state.products = state.products.map((product) =>
-        product.id === payload.id ? payload : product
-      );
-    },
-    deleteProduct: (state, { payload }: PayloadAction<number>) => {
-      state.products = state.products.filter(
-        (product) => product.id !== payload
-      );
-    },
   },
   extraReducers: (builder) => {
     // get all products
@@ -111,6 +102,20 @@ const productSlice = createAppSlice({
     );
     builder.addCase(getAllProducts.rejected, (state) => {
       state.loading = false;
+    });
+
+    // update product
+    builder.addCase(updateProduct.fulfilled, (state, { payload }) => {
+      state.products = state.products.map((product) =>
+        product.id === payload.id ? payload : product
+      );
+    });
+
+    // delete product
+    builder.addCase(deleteProduct.fulfilled, (state, { payload }) => {
+      state.products = state.products.filter(
+        (product) => product.id !== payload.id
+      );
     });
   },
 });

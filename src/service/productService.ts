@@ -1,4 +1,6 @@
 import { axiosInstance } from "../libs/axios";
+import type { GetData } from "../types/getData";
+import type { Product, UpdateProduct } from "../types/product";
 import {
   handleError,
   handleSuccess,
@@ -6,7 +8,7 @@ import {
   type ApiSuccessI,
 } from "./handle-response";
 
-const getAll = (payload: unknown): Promise<ApiSuccessI | ApiErrorI> => {
+const getAll = (payload: GetData): Promise<ApiSuccessI | ApiErrorI> => {
   return new Promise((resolve, reject) => {
     axiosInstance
       .get("/products", { params: payload })
@@ -15,7 +17,7 @@ const getAll = (payload: unknown): Promise<ApiSuccessI | ApiErrorI> => {
   });
 };
 
-const add = (payload: unknown): Promise<ApiSuccessI | ApiErrorI> => {
+const add = (payload: Partial<Product>): Promise<ApiSuccessI | ApiErrorI> => {
   return new Promise((resolve, reject) => {
     axiosInstance
       .post("/products/add", payload)
@@ -24,10 +26,7 @@ const add = (payload: unknown): Promise<ApiSuccessI | ApiErrorI> => {
   });
 };
 
-const update = (ORpayload: {
-  id: number;
-  payload: unknown;
-}): Promise<ApiSuccessI | ApiErrorI> => {
+const update = (ORpayload: UpdateProduct): Promise<ApiSuccessI | ApiErrorI> => {
   return new Promise((resolve, reject) => {
     const { id, payload } = ORpayload;
 
@@ -38,7 +37,7 @@ const update = (ORpayload: {
   });
 };
 
-const deleteById = (id: string) => {
+const deleteById = (id: string): Promise<ApiSuccessI | ApiErrorI> => {
   return new Promise((resolve, reject) => {
     axiosInstance
       .delete(`/products/${id}`)

@@ -9,7 +9,7 @@ import {
 import { useAppDispatch } from "../redux/hooks";
 import {
   addProduct,
-  editProduct,
+  updateProduct,
   productActions,
 } from "../redux/slices/productSlice";
 
@@ -38,20 +38,14 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
 
   const handleSubmit = () => {
     if (data.isEdit) {
-      dispatch(editProduct({ id: data.id, payload: product }))
+      dispatch(updateProduct({ id: data.id, payload: product }))
         .unwrap()
-        .then((res) => {
-          console.log(res);
-          dispatch(productActions.updateProduct(res));
-          handleClose();
-        })
+        .then(() => handleClose())
         .catch((err) => console.log(err));
-      handleClose();
     } else {
       dispatch(addProduct(product))
         .unwrap()
         .then((res) => {
-          console.log(res.data);
           dispatch(productActions.setProduct(res.data));
           handleClose();
         })
