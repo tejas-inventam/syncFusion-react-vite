@@ -1,15 +1,15 @@
-import type { Action, ThunkAction } from "@reduxjs/toolkit";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import productSlice from "./slices/productSlice";
+import type { Action, ThunkAction } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import productSlice from './slices/productSlice'
 
 // import { setupListeners } from '@reduxjs/toolkit/query'
 
 const rootReducer = combineReducers({
-  product: productSlice,
-});
+  product: productSlice
+})
 
 // Infer the `RootState` type from the root reducer
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof rootReducer>
 
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config
@@ -22,27 +22,22 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
     // middleware: (getDefaultMiddleware) => {
     //   return getDefaultMiddleware().concat(quotesApiSlice.middleware)
     // },
-    preloadedState,
-  });
+    preloadedState
+  })
 
   // configure listeners using the provided defaults
   // optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors
   // setupListeners(store.dispatch)
-  return store;
-};
+  return store
+}
 
-const store = makeStore();
+const store = makeStore()
 
-export default store;
+export default store
 
 // Infer the type of `store`
-export type AppStore = typeof store;
+export type AppStore = typeof store
 
 // Infer the `AppDispatch` type from the store itself
-export type AppDispatch = AppStore["dispatch"];
-export type AppThunk<ThunkReturnType = void> = ThunkAction<
-  ThunkReturnType,
-  RootState,
-  unknown,
-  Action
->;
+export type AppDispatch = AppStore['dispatch']
+export type AppThunk<ThunkReturnType = void> = ThunkAction<ThunkReturnType, RootState, unknown, Action>

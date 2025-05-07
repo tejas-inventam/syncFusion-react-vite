@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 interface IsOpenI {
-  show: boolean;
-  row: unknown;
+  show: boolean
+  row: unknown
 }
 
 const useModal = () => {
-  const [isOpen, setIsOpen] = useState<IsOpenI>({ show: false, row: {} });
+  const [isOpen, setIsOpen] = useState<IsOpenI>({ show: false, row: {} })
 
   const onClose = () => {
-    setIsOpen({ show: false, row: {} });
-  };
+    setIsOpen({ show: false, row: {} })
+  }
 
   const onOpen = (row: object = {}) => {
-    setIsOpen({ show: true, row });
-  };
+    setIsOpen({ show: true, row })
+  }
 
   return {
     isOpen: isOpen.show,
     selectedRow: isOpen.row,
     onClose,
-    onOpen,
-  };
-};
+    onOpen
+  }
+}
 
-export default useModal;
+export default useModal
