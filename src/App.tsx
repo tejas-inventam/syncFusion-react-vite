@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react'
 import Loader from './components/Loader'
 import { useAppDispatch, useAppSelector } from './redux/hooks'

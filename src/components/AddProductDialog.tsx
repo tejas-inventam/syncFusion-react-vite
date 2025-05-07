@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { DialogComponent } from '@syncfusion/ej2-react-popups'
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons'
