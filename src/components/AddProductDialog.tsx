@@ -69,6 +69,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({ open, setOpen, data
       visible={open}
       showCloseIcon={true}
       close={handleClose}
+      isModal={true}
       animationSettings={{ effect: 'Zoom' }}
       footerTemplate={footerTemplate}
     >
