@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 interface IsOpenI {
   show: boolean
-  row: unknown
+  row: any
 }
 
 const useModal = () => {

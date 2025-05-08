@@ -13,19 +13,22 @@ import {
 import useModal from './hooks/use-modal'
 import AddProductDialog from './components/AddProductDialog'
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons'
+import DeleteDialog from './components/DeleteDialog'
 
 const App = () => {
   const { products, loading } = useAppSelector(({ product }) => product)
   const dispatch = useAppDispatch()
 
   const productDialog = useModal()
+  const isDelete = useModal()
 
   useEffect(() => {
     dispatch(getAllProducts({ limit: 0 }))
   }, [dispatch])
 
-  const handleDelete = (props: any) => {
-    dispatch(deleteProduct(props.id))
+  const handleDelete = () => {
+    const { id } = isDelete.selectedRow
+    dispatch(deleteProduct(id)).finally(() => isDelete.onClose())
   }
 
   const actionTemplate = (props: any) => {
@@ -34,7 +37,12 @@ const App = () => {
         <ButtonComponent cssClass='e-small e-info' onClick={() => productDialog.onOpen({ ...props, isEdit: true })}>
           Edit
         </ButtonComponent>
-        <ButtonComponent cssClass='e-small e-danger' onClick={() => handleDelete(props)}>
+        <ButtonComponent
+          cssClass='e-small e-danger'
+          onClick={() => {
+            isDelete.onOpen({ id: props.id })
+          }}
+        >
           Delete
         </ButtonComponent>
       </div>
@@ -79,6 +87,7 @@ const App = () => {
           data={productDialog.selectedRow}
         />
       )}
+      {isDelete.isOpen && <DeleteDialog open={isDelete.isOpen} setOpen={isDelete.onClose} onDelete={handleDelete} />}
     </div>
   )
 }
